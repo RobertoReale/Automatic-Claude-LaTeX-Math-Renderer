@@ -201,27 +201,36 @@
     }
 
     // Add CSS to match the exact spacing
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-        .katex-display {
-            /* Use the same spacing as the original page */
-            margin-top: calc(.375rem * calc(1 - var(--tw-space-y-reverse)));
-            margin-bottom: calc(.375rem * var(--tw-space-y-reverse));
-            text-align: center;
-        }
-        .katex {
-            /* Inherit font size and line height from parent */
-            font-size: inherit;
-            line-height: 1.65rem;
-            text-indent: 0;
-        }
-        .message-content {
-            /* Match the original line height and letter-spacing */
-            line-height: 1.65rem;
-            letter-spacing: -0.015em;
-        }
-    `;
-    document.head.appendChild(styleElement);
+const styleElement = document.createElement('style');
+styleElement.textContent = `
+    /* Adjusted KaTeX display to match original styling */
+    .katex-display {
+        margin-top: calc(.375rem * calc(1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(.375rem * var(--tw-space-y-reverse));
+        text-align: center;
+        -webkit-text-size-adjust: 100%;
+        tab-size: 4;
+        font-variation-settings: normal;
+        -webkit-tap-highlight-color: transparent;
+    }
+    /* Ensure math elements inherit typography and smoothing */
+    .katex {
+        font-size: inherit;
+        line-height: 1.65rem;
+        text-indent: 0;
+        font-family: var(--font-claude-message);
+        -webkit-font-smoothing: antialiased;
+        font-feature-settings: "ss01";
+        color: hsl(var(--text-100)/var(--tw-text-opacity));
+    }
+    /* Message content should follow the original letter-spacing and line-height */
+    .message-content {
+        line-height: 1.65rem;
+        letter-spacing: -0.015em;
+        font-family: var(--font-claude-message);
+    }
+`;
+document.head.appendChild(styleElement);
 
     // Set up observer for content changes
     const observer = new MutationObserver(() => {
